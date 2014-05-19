@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Autor: Namir Sayed-Ahmad Baraza
+	 mail: namirsab@gmail.com -->
+<resources>
+    
+
+<!-- Introduce el nombre de tu aplicación -->
+    <string name="app_name">PFC</string>
+    <string name="boton_acerca_de">Acerca de</string>
+    <string name="appsUgr">Visitar Catálogo AppsUGR</string>
+<!--     TODO: Introduce en la linea de debajo el texto del disclaimer -->
+     <string name="disclaimer">Texto libre sobre el autor</string>
+     <string name="promotedBy">Promovido por:</string>
+     <string name="copyright">Copyright UGR "\u00AE" 2013 v.1.0</string>
+     <string name="contact">Contacto</string>
+
+</resources>
