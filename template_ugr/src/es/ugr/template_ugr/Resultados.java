@@ -77,7 +77,7 @@ import pfc.obj.TiposPropios.Sexo;
  */
 public class Resultados extends Activity {
 	private ListView listView ;
-	private Button semana,mes,año,mGrafica;
+	private Button semana,mes,año,mGrafica,mTabla;
 	private int fecha=1;
 	private List<Boolean> alSelec,serSelec;
 	private TableLayout tl;
@@ -119,6 +119,7 @@ public class Resultados extends Activity {
 		año.setBackgroundColor(getResources().getColor(R.color.white));
 		
 		mGrafica=(Button)findViewById(R.id.ResulGrafica);
+		mTabla=(Button)findViewById(R.id.MuestraTabla);
 		
 		semana.setOnClickListener(new OnClickListener() {
 			
@@ -367,7 +368,48 @@ public class Resultados extends Activity {
 			}
 		});
 		
-		
+		mTabla.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent tablaIntent=new Intent(getApplicationContext(), Tablas.class);
+
+				
+				//RadioButton
+				RadioGroup rg=(RadioGroup)findViewById(R.id.radioGroup);		
+				int radioButtonID = rg.getCheckedRadioButtonId();
+				View radioButton = rg.findViewById(radioButtonID);
+				int radioSelec = rg.indexOfChild(radioButton);
+				
+				
+				
+				tablaIntent.putExtra("tipoFecha", fecha);
+				//Lista de alumnos seleccionados
+				List<Integer> listaIdAlumnos=new ArrayList<Integer>();
+				for(int i=0;i<alSelec.size();i++){
+					if(alSelec.get(i)==true)
+						listaIdAlumnos.add(la.get(i).getIdAlumno());
+				}
+				
+				List<Integer> listaIdSeries=new ArrayList<Integer>();
+				for(int i=0;i<serSelec.size();i++){
+					if(serSelec.get(i)==true)
+						listaIdSeries.add(lse.get(i).getIdSerie());
+				}
+
+				
+				
+				tablaIntent.putExtra("tipoGrafica", radioSelec);
+				tablaIntent.putIntegerArrayListExtra("listaAlumnos", (ArrayList<Integer>) listaIdAlumnos);
+				tablaIntent.putIntegerArrayListExtra("listaSeries", (ArrayList<Integer>) listaIdSeries);
+				startActivity(tablaIntent);
+
+				
+				
+				
+			}
+		});
 		
 	}
 	

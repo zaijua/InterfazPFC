@@ -43,6 +43,11 @@
             android:theme="@style/AppTheme" 
             android:screenOrientation="landscape" >
         </activity>
+        <activity
+            android:name="es.ugr.template_ugr.Tablas"
+            android:theme="@style/AppTheme" 
+            android:screenOrientation="landscape" >
+        </activity>
         <activity android:name="es.ugr.template_ugr.SplashActivity"
             android:screenOrientation="portrait" >
             <intent-filter>

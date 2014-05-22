@@ -6,34 +6,34 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_color1"
-        android:id="@+id/linearLayout">
+        android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/titGraph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center"
+            android:layout_weight="0.99"
             android:text="Ranking Alumnos"
-            android:id="@+id/titGraph" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageButton
+            android:id="@+id/GraphAnterior"
             android:layout_width="44dp"
             android:layout_height="38dp"
-            android:id="@+id/GraphAnterior"
             android:layout_gravity="right"
             android:src="@drawable/anterior" />
 
         <ImageButton
+            android:id="@+id/graphSiguiente"
             android:layout_width="44dp"
             android:layout_height="38dp"
-            android:id="@+id/graphSiguiente"
             android:layout_gravity="right"
             android:src="@drawable/siguiente" />
-
     </LinearLayout>
 
     <ViewAnimator

@@ -75,7 +75,6 @@ public class Graficas extends Activity {
 		setContentView(R.layout.dialogo_graficos);
 		InicioResultados();
 		
-
 	}
 
 	private void InicioResultados(){
