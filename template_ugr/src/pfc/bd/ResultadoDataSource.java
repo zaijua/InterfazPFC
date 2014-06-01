@@ -9,6 +9,7 @@ import java.util.List;
 import pfc.obj.Alumno;
 import pfc.obj.Resultado;
 import pfc.obj.SerieEjercicios;
+import pfc.obj.TiposPropios.Periodo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -50,7 +51,7 @@ public class ResultadoDataSource {
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO, resultado.getIdAlumno());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO, resultado.getIdEjercicio());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FECHA,
-				new SimpleDateFormat("dd/MM/yyyy").format(resultado.getFechaRealizacion()));
+				new SimpleDateFormat("yyyy-MM-dd").format(resultado.getFechaRealizacion()));
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS, resultado.getAciertos());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FALLOS, resultado.getFallos());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_DURACION, resultado.getDuracion());
@@ -63,12 +64,12 @@ public class ResultadoDataSource {
 	}
 	
 	public Resultado createResultado(int idAlumno, int idEjercicio, int aciertos, int fallos,
-			Date fecha, int duracion, int numObjetos, double puntuacion) {
+			Date fecha, double duracion, int numObjetos, double puntuacion) {
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO, idAlumno);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO, idEjercicio);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FECHA,
-				new SimpleDateFormat("dd/MM/yyyy").format(fecha));
+				new SimpleDateFormat("yyyy-MM-dd").format(fecha));
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS, aciertos);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FALLOS, fallos);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_DURACION, duracion);
@@ -91,7 +92,7 @@ public class ResultadoDataSource {
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO, resultado.getIdAlumno());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO, resultado.getIdEjercicio());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FECHA,
-				new SimpleDateFormat("dd/MM/yyyy").format(resultado.getFechaRealizacion()));
+				new SimpleDateFormat("yyyy-MM-dd").format(resultado.getFechaRealizacion()));
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS, resultado.getAciertos());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FALLOS, resultado.getFallos());
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_DURACION, resultado.getDuracion());
@@ -103,13 +104,13 @@ public class ResultadoDataSource {
 	}
 
 	public boolean modificaResultado(int id, int idAlumno, int idEjercicio, int aciertos, int fallos,
-			Date fecha, int duracion, int numObjetos, double puntuacion) {
+			Date fecha, double duracion, int numObjetos, double puntuacion) {
 
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO, idAlumno);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO, idEjercicio);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FECHA,
-				new SimpleDateFormat("dd/MM/yyyy").format(fecha));
+				new SimpleDateFormat("yyyy-MM-dd").format(fecha));
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS, aciertos);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_FALLOS, fallos);
 		values.put(MySQLiteHelper.COLUMN_RESULTADO_DURACION, duracion);
@@ -166,19 +167,12 @@ public class ResultadoDataSource {
 	}
 
 
-	public List<Resultado> getResultadosAlumno(Alumno alumno){
+	public List<Resultado> getResultadosAlumno(Alumno alumno, SerieEjercicios serie, int dias){
 		
 		List<Resultado> resultados = new ArrayList<Resultado>();
+				
+		String query = crearQueryResultadosAlumno(alumno, serie, dias);
 		
-		
-		String query="SELECT R."+MySQLiteHelper.COLUMN_RESULTADO_ID+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+
-				", sum("+MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_FALLOS+"),"+
-				" "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+", sum("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
-				" sum("+MySQLiteHelper.COLUMN_RESULTADO_NUM_OBJETOS+")"+
-				" FROM "+MySQLiteHelper.TABLE_RESULTADO+" R, "+MySQLiteHelper.TABLE_ALUMNO+" A"+
-				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+alumno.getIdAlumno()+
-				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" > (DATETIME('NOW') - 7)"+
-				" GROUP BY FECHAREALIZACION, R.IDALUMNO";
 		Cursor cursor = database.rawQuery(query, null);
 		
 		if (cursor != null && cursor.getCount() > 0) {
@@ -194,73 +188,31 @@ public class ResultadoDataSource {
 		return resultados;
 		
 	}
-	
-	
-//Creada por Juanma
-	public List<Resultado> getResultadosAlumno(Alumno alumno, SerieEjercicios serie){
-		
-		List<Resultado> resultados = new ArrayList<Resultado>();
-		
+
+	private String crearQueryResultadosAlumno(Alumno alumno,
+			SerieEjercicios serie, int dias) {
 		
 		String query="SELECT R."+MySQLiteHelper.COLUMN_RESULTADO_ID+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+
 				", sum("+MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_FALLOS+"),"+
 				" "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+", sum("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
 				" sum("+MySQLiteHelper.COLUMN_RESULTADO_NUM_OBJETOS+")"+
+				
 				" FROM "+MySQLiteHelper.TABLE_RESULTADO+" R, "+MySQLiteHelper.TABLE_ALUMNO+" A"+
-				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
+				
+				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
 				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
-				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA +" > '"+new SimpleDateFormat("dd/MM/yyyy").format(restaDias(new Date(), 7))+"'"+
-				" GROUP BY FECHAREALIZACION, R.IDALUMNO";
-		Cursor cursor = database.rawQuery(query, null);
-		
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			while (!cursor.isAfterLast()) {
-				Resultado resultado = cursorToResultado(cursor);
-				resultados.add(resultado);
-				cursor.moveToNext();
-			}
-			cursor.close();
-		}
-		
-		return resultados;
-		
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" > '"+new SimpleDateFormat("yyyy-MM-dd").format(restaDias(new Date(), dias))+"'";
+				
+				if (dias == Periodo.Semana || dias == Periodo.Mes)
+					query = query + " GROUP BY "+MySQLiteHelper.COLUMN_RESULTADO_FECHA;
+				else if (dias == Periodo.SeisMeses)
+					query = query + " GROUP BY 'Month'";
+				
+				query = query + ", R."+MySQLiteHelper.COLUMN_ALUMNO_ID;
+				
+		return query;
 	}
-	
-	
-	
-	public List<Resultado> getResultadosAlumnoMes(Alumno alumno, SerieEjercicios serie){
-		
-		List<Resultado> resultados = new ArrayList<Resultado>();
-		
-		
-		String query="SELECT R."+MySQLiteHelper.COLUMN_RESULTADO_ID+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+
-				", sum("+MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_FALLOS+"),"+
-				" "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+", sum("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
-				" sum("+MySQLiteHelper.COLUMN_RESULTADO_NUM_OBJETOS+")"+
-				" FROM "+MySQLiteHelper.TABLE_RESULTADO+" R, "+MySQLiteHelper.TABLE_ALUMNO+" A"+
-				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
-				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
-				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA +" > '"+new SimpleDateFormat("dd/MM/yyyy").format(restaDias(new Date(), 30))+"'"+
-				" GROUP BY FECHAREALIZACION, R.IDALUMNO";
-		Cursor cursor = database.rawQuery(query, null);
-		
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			while (!cursor.isAfterLast()) {
-				Resultado resultado = cursorToResultado(cursor);
-				resultados.add(resultado);
-				cursor.moveToNext();
-			}
-			cursor.close();
-		}
-		
-		return resultados;
-		
-	}
-	
-	
-	
 	
 	private Resultado cursorToResultado(Cursor cursor) {
 		Resultado resultado = new Resultado();
@@ -270,23 +222,21 @@ public class ResultadoDataSource {
 		resultado.setAciertos(cursor.getInt(3));
 		resultado.setFallos(cursor.getInt(4));
 		try {
-			resultado.setFechaRealizacion(new SimpleDateFormat("dd/MM/yyyy").parse(cursor
+			resultado.setFechaRealizacion(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
 					.getString(5)));
 		} catch (ParseException e) {
 			Log.e("ERROR_FECHA", "Error al obtener la fecha");
 			e.printStackTrace();
 		}
 		resultado.setPuntuacion(cursor.getDouble(6));
-		resultado.setDuracion(cursor.getInt(7));
+		resultado.setDuracion(cursor.getDouble(7));
 		resultado.setNumeroObjetosReconocer(cursor.getInt(8));
 		return resultado;
 	}
 	
-	 private Date restaDias(Date date1,int dias){
+	private Date restaDias(Date date1,int dias){
 		 final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-
-		 Date dateBefore = new Date(date1.getTime() - dias*DAY_IN_MILLIS );
-		 return dateBefore;
+		 return new Date(date1.getTime() - dias*DAY_IN_MILLIS );
 	 }
 
 }

@@ -19,143 +19,167 @@
         android:textColor="#ffff2c08" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
 
         <TableLayout
-            android:layout_width="200dp"
-            android:layout_marginLeft="51dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:baselineAligned="false">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.20"
+            android:baselineAligned="false" >
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent" >
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
                     <ImageButton
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
                         android:id="@+id/buttonAlum"
-                        android:background="@drawable/ic2"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="77.5dp"
-                        android:layout_above="@+id/buttonEsta"
-                        android:layout_alignParentLeft="true"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
                         android:layout_alignParentStart="true"
-                        android:gravity="center"/>
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ic2"
+                        android:gravity="center" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Gestión Alumnos"
                         android:id="@+id/textView"
-                        android:gravity="center"/>
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout">
-
-                    <ImageButton
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:id="@+id/buttonEsta"
-                        android:background="@drawable/ic1"
-                        android:textAlignment="gravity"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="77.5dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignLeft="@+id/buttonAlum"
-                        android:layout_alignStart="@+id/buttonAlum"
-                        android:gravity="center"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="152dp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Resultados/Estadísticas"
-                        android:id="@+id/textView2"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:text="Gestión Alumnos"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/buttonEj"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/ic6"
+                        android:gravity="center"
+                        android:textAlignment="gravity" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="139dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Ejercicios"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/linearLayout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout2" >
+                    android:orientation="vertical" >
 
                     <ImageButton
+                        android:id="@+id/buttonEsta"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:id="@+id/buttonEj"
-                        android:background="@drawable/ic3"
-                        android:textAlignment="gravity"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="77.5dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignLeft="@+id/buttonAlum"
                         android:layout_alignStart="@+id/buttonAlum"
-                        android:gravity="center"/>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic1"
+                        android:gravity="center"
+                        android:textAlignment="gravity" />
 
                     <TextView
+                        android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Ejercicios"
-                        android:id="@+id/textView3"
                         android:gravity="center"
-                        android:textAlignment="center" />
-
+                        android:text="Resultados"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
-            </TableRow>
 
+                <LinearLayout
+                    android:id="@+id/LinearLayout01"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/ButtonSerie"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignStart="@+id/buttonAlum"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic3"
+                        android:textAlignment="gravity" />
+
+                    <TextView
+                        android:id="@+id/TextView01"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Serie Ejercicios"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+            </TableRow>
         </TableLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="0.07"
+            android:orientation="vertical" >
 
             <ImageButton
+                android:id="@+id/Empezar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/buttonPlay"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/ic4"
                 android:textAlignment="gravity"
-                android:layout_marginTop="70dp"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_gravity="center" />
 
             <TextView
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center"
                 android:text="EMPEZAR"
-                android:id="@+id/textView4"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
+            <Button
+                android:id="@+id/Reinicia"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ReiniciaBD"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

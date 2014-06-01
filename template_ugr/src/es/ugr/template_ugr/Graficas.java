@@ -29,6 +29,7 @@ import pfc.bd.SerieEjerciciosDataSource;
 import pfc.obj.Alumno;
 import pfc.obj.Resultado;
 import pfc.obj.SerieEjercicios;
+import pfc.obj.TiposPropios;
 
 import com.ugr.template_ugr.R;
 
@@ -36,6 +37,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.location.GpsStatus.NmeaListener;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.MonthDisplayHelper;
@@ -65,6 +67,10 @@ public class Graficas extends Activity {
 	private ViewAnimator va;
 	private List<Integer> listaAlumnos;
 	private List<Integer> listaSeries;
+	private int posAnimation=0;
+	private int totalAnimation=0;
+	private List<String> nombSeries=new ArrayList<String>();
+	private List<String> nombAlumnos=new ArrayList<String>();
 	
 	
 	
@@ -80,6 +86,10 @@ public class Graficas extends Activity {
 	private void InicioResultados(){
 		
 		//ViewAnimator
+		
+	    final TextView titulo=(TextView)findViewById(R.id.titGraph);
+	    final TextView subtitulo=(TextView)findViewById(R.id.titEjerGraf);
+	    
 		
         va=(ViewAnimator)findViewById(R.id.viewAnimator1);
        
@@ -100,6 +110,18 @@ public class Graficas extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				va.showPrevious();
+				posAnimation=(posAnimation-1);
+				if (posAnimation<0)
+					posAnimation+=totalAnimation;
+				
+				if(graficaTipo==0){
+					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+					subtitulo.setText(nombSeries.get(posAnimation));
+				}
+				else{
+					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+					subtitulo.setText(nombAlumnos.get(posAnimation));
+				}
 			}
 		});
         
@@ -111,6 +133,15 @@ public class Graficas extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				va.showNext();
+				posAnimation=(posAnimation+1)%totalAnimation;
+				if(graficaTipo==0){
+					titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+					subtitulo.setText(nombSeries.get(posAnimation));
+				}
+				else{
+					titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+					subtitulo.setText(nombAlumnos.get(posAnimation));
+				}
 			}
 		});
         
@@ -126,21 +157,23 @@ public class Graficas extends Activity {
 	    listaSeries=extras.getIntegerArrayList("listaSeries");
 	    graficaTipo=extras.getInt("tipoGrafica");
 	    
-	    TextView titulo=new TextView(this);
-	    titulo=(TextView)findViewById(R.id.titGraph);
+
 	    
 	    //Si es ranking
 	    if(graficaTipo==0){
 	    //Toast.makeText(getApplicationContext(),"Radio "+graficaTipo, Toast.LENGTH_SHORT).show();
-	    titulo.setText("Ranking de Alumnos");
-	    
+		    totalAnimation=listaSeries.size();
 		for(int i=0;i<listaSeries.size();i++)
 			GraficoRanking(fechaTipo,listaSeries.get(i));
+		titulo.setText("Ranking de Alumnos"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+		subtitulo.setText(nombSeries.get(posAnimation));
 	    }
 	    else if(graficaTipo==1){
-		    titulo.setText("Gráfica Alumno");		    
+		    totalAnimation=listaAlumnos.size();	    
 			for(int i=0;i<listaAlumnos.size();i++)
 				GraficoAlumno(fechaTipo,listaAlumnos.get(i));
+			titulo.setText("Resultados Alumno"+"("+String.valueOf(posAnimation+1)+"/"+String.valueOf(totalAnimation)+")");
+			subtitulo.setText(nombAlumnos.get(posAnimation));
 	    }
 
 	}
@@ -166,17 +199,19 @@ public class Graficas extends Activity {
 		 seds.open();
 		 
 		 SerieEjercicios se=seds.getSerieEjercicios(idSerie);
+		 
+		 nombSeries.add(se.getNombre());
 		 for(int i=0;i<listaAlumnos.size();i++){
 			 switch (fechaTipo) {
 			case 1:
-				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se ));
+				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Semana ));
 				break;
 			case 2:
-				listaFinal.add(rds.getResultadosAlumnoMes(ads.getAlumnos(listaAlumnos.get(i)),se ));
+				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Mes ));
 				break;
 				
 			case 3:
-				
+				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.SeisMeses));
 				break;
 			default:
 				
@@ -346,7 +381,10 @@ public class Graficas extends Activity {
 	        //new SimpleDateFormat("dd/MM/yyyy");
 	        for(int i=0; i< ncampos;i++){
 		        Calendar calen = Calendar.getInstance();
-	            calen.add(Calendar.DATE, -(ncampos-1-i));      
+		        if(fechaTipo==1||fechaTipo==2)
+		        	calen.add(Calendar.DATE, -(ncampos-1-i));
+		        if(fechaTipo==3)
+		        	calen.add(Calendar.MONTH, -(ncampos-1-i));
 	            multiRenderer.addXTextLabel(i, dateFormat.format(calen.getTime()).toString());
 	        }
 	 
@@ -384,17 +422,19 @@ public class Graficas extends Activity {
 		 seds.open();
 		 
 		 Alumno al=ads.getAlumnos(idAlumno);
+		 
+		 nombAlumnos.add(al.getNombre());
 		 for(int i=0;i<listaSeries.size();i++){
 			 switch (fechaTipo) {
 			case 1:
-				listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i))));
+				listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i)),TiposPropios.Periodo.Semana));
 				break;
 			case 2:
-				listaFinal.add(rds.getResultadosAlumnoMes(al,seds.getSerieEjercicios(listaSeries.get(i))));
+				listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i)),TiposPropios.Periodo.Mes));
 				break;
 				
 			case 3:
-				
+				listaFinal.add(rds.getResultadosAlumno(al,seds.getSerieEjercicios(listaSeries.get(i)),TiposPropios.Periodo.SeisMeses));
 				break;
 			default:
 				
@@ -591,7 +631,10 @@ public class Graficas extends Activity {
 	        for(int i=0; i< ncampos;i++){
 	        	for(int j=0;j<listaSeries.size();j++){
 				        Calendar calen = Calendar.getInstance();
-			            calen.add(Calendar.DATE, -(ncampos-1-i));
+				        if(fechaTipo==1||fechaTipo==2)
+				        	calen.add(Calendar.DATE, -(ncampos-1-i));
+				        if(fechaTipo==3)
+				        	calen.add(Calendar.MONTH, -(ncampos-1-i));
 			            if(j==0)
 			            {
 			            	//multiRenderer.setBarSpacing(4.5f);

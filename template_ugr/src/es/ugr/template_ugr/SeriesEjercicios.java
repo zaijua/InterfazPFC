@@ -160,7 +160,7 @@ public class SeriesEjercicios extends Activity {
 		tablaSeries.removeAllViews();
         TableRow row;
         ImageView f1;
-        TextView t2,t3,tit1,tit2,tit3;
+        TextView t2,t3,t4,tit1,tit2,tit3,tit4;
         lse=seds.getAllSeriesEjercicios();
         //Cabecera
         
@@ -175,6 +175,7 @@ public class SeriesEjercicios extends Activity {
         tit1=new TextView(this);
         tit2=new TextView(this);
         tit3=new TextView(this);
+        tit4=new TextView(this);
         
    	 tit1.setText("Borrar");
    	 tit1.setPadding(2, 0, 5, 0);
@@ -184,14 +185,19 @@ public class SeriesEjercicios extends Activity {
    	 tit2.setPadding(2, 0, 5, 0);
    	 tit2.setTextColor(getResources().getColor(R.color.texto_tabla));
    	 
-   	 tit3.setText("Última modificación");
+   	 tit3.setText("TºEstimado");
    	 tit3.setPadding(2, 0, 5, 0);
    	 tit3.setTextColor(getResources().getColor(R.color.texto_tabla));
+   	 
+   	 tit4.setText("Última modificación");
+   	 tit4.setPadding(2, 0, 5, 0);
+   	 tit4.setTextColor(getResources().getColor(R.color.texto_tabla));
 
    	 
    	 row.addView(tit1);
    	 row.addView(tit2);
    	 row.addView(tit3);
+   	 row.addView(tit4);
 
    	 
    	tablaSeries.addView(row, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT)); 
@@ -220,16 +226,23 @@ public class SeriesEjercicios extends Activity {
        	 t2.setText(lse.get(i).getNombre());
        	 t2.setPadding(2, 0, 5, 0);
        	 t2.setTextColor(getResources().getColor(R.color.texto_tabla));
+       	
        	 
-       	 
+       	 /*
        	 Calendar c = Calendar.getInstance();
        	 SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss a");
-       	 String strDate = sdf.format(c.getTime());
+       	 String strDate = sdf.format(c.getTime());*/
        	 
        	 t3=new TextView(this);
-       	 t3.setText(strDate);
+       	 t3.setText(String.valueOf(lse.get(i).getDuracion()));
        	 t3.setPadding(2, 0, 5, 0);
        	 t3.setTextColor(getResources().getColor(R.color.texto_tabla));
+       	 
+       	 
+       	 t4=new TextView(this);
+       	 t4.setText(lse.get(i).getFecha_modificacion_AsStrign());
+       	 t4.setPadding(2, 0, 5, 0);
+       	 t4.setTextColor(getResources().getColor(R.color.texto_tabla));
        	 micontexto=this;
        	 
        	 
@@ -301,6 +314,7 @@ public class SeriesEjercicios extends Activity {
        	 row.addView(f1);
        	 row.addView(t2);
        	 row.addView(t3);
+       	 row.addView(t4);
 
        	tablaSeries.addView(row, new TableLayout.LayoutParams(
                    LayoutParams.FILL_PARENT,
@@ -323,22 +337,22 @@ public class SeriesEjercicios extends Activity {
 		
 	}
 	
-	
+	/*
 	
 	private void insertaDatos(){
 		
 		//Crear objetos
 		ObjetoDataSource obs=new ObjetoDataSource(this);
 		obs.open();
-		obs.createObjeto("Pelota tenis", "", "");
-		obs.createObjeto("Pelota beisbol", "", "");
-		obs.createObjeto("Teléfono", "", "");
-		obs.createObjeto("Bolígrafo", "", "");
-		obs.createObjeto("Rotulador", "", "");
-		obs.createObjeto("Estuche", "", "");
-		obs.createObjeto("Lápiz", "", "");
-		obs.createObjeto("Vaso", "", "");
-		obs.createObjeto("Plato", "", "");
+		obs.createObjeto("Pelota tenis", "", "",0,0);
+		obs.createObjeto("Pelota beisbol", "", "",0,0);
+		obs.createObjeto("Teléfono", "", "",0,0);
+		obs.createObjeto("Bolígrafo", "", "",0,0);
+		obs.createObjeto("Rotulador", "", "",0,0);
+		obs.createObjeto("Estuche", "", "",0,0);
+		obs.createObjeto("Lápiz", "", "",0,0);
+		obs.createObjeto("Vaso", "", "",0,0);
+		obs.createObjeto("Plato", "", "",0,0);
 		obs.close();
 		
 		//Crear Ejercicios
@@ -383,7 +397,7 @@ public class SeriesEjercicios extends Activity {
 		
 		
 		
-	}
+	}*/
 
 	
 	
@@ -407,7 +421,8 @@ public class SeriesEjercicios extends Activity {
 		//Modificar elementos dentro del dialogo
 		final EditText nomSerie=(EditText)dialogo.findViewById(R.id.NomSerie);
 		nomSerie.setText(serie.getNombre());
-		
+		final EditText duracion=(EditText)dialogo.findViewById(R.id.Duracion);
+		duracion.setText(String.valueOf(serie.getDuracion()));
 		//Table Layout dentro dialogo
 		
         tablaEjercicios=(TableLayout)dialogo.findViewById(R.id.tablaEjerciciosSerie);
@@ -491,6 +506,7 @@ public class SeriesEjercicios extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
 							serie.setNombre(nomSerie.getText().toString());
+							serie.setDuracion(Double.parseDouble(duracion.getText().toString()));
 							int pos=(Integer)trow.getTag();
 							serie.getEjercicios().remove(pos);
 							CrearModificarSeriesEjercicios(false,serie,insertar);
@@ -575,6 +591,7 @@ public class SeriesEjercicios extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						serie.setNombre(nomSerie.getText().toString());
+						serie.setDuracion(Double.parseDouble(duracion.getText().toString()));
 						serie.getEjercicios().add(le.get(which).getIdEjercicio());	
 						//dialogo.dismiss();
 						CrearModificarSeriesEjercicios(false,serie,insertar);
@@ -592,9 +609,11 @@ public class SeriesEjercicios extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				serie.setNombre(nomSerie.getText().toString());
+				serie.setDuracion(Double.parseDouble(duracion.getText().toString()));
+				serie.setFecha_modificacion(new Date());
 				boolean mo=false;
 				if (insertar==false)
-					mo=seds.modificaSerieEjercicios(serie.getIdSerie(), serie.getNombre(), serie.getEjercicios());
+					mo=seds.modificaSerieEjercicios(serie);
 				else
 					mo=seds.createSerieEjercicios(serie) != null;
 				if(mo){

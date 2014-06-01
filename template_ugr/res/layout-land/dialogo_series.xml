@@ -27,8 +27,25 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:hint="Nombre Serie"
-            android:layout_weight="2" />
+            android:layout_weight="1.15"
+            android:hint="Nombre Serie" />
+
+        <TextView
+            android:id="@+id/LabelDuracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="Duración Estimada"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/texto_tabla" />
+
+        <EditText
+            android:id="@+id/Duracion"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.75"
+           	android:inputType="number"
+            android:hint="Minutos" />
 
         <ImageButton
             android:layout_width="wrap_content"

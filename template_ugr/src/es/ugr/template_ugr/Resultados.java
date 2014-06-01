@@ -474,14 +474,14 @@ public class Resultados extends Activity {
 		ResultadoDataSource rds=new ResultadoDataSource(this);
 		rds.open();
 		 Calendar cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,14);
+		 cal.set(Calendar.DAY_OF_MONTH,24);
 		 cal.set(Calendar.MONTH,4);
 		 cal.set(Calendar.YEAR,2014);
 
 		 Date d = cal.getTime();
 		 
 		 cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,15);
+		 cal.set(Calendar.DAY_OF_MONTH,25);
 		 cal.set(Calendar.MONTH,4);
 		 cal.set(Calendar.YEAR,2014);
 
@@ -490,7 +490,7 @@ public class Resultados extends Activity {
 		 
 		 
 		 cal = Calendar.getInstance();
-		 cal.set(Calendar.DAY_OF_MONTH,13);
+		 cal.set(Calendar.DAY_OF_MONTH,26);
 		 cal.set(Calendar.MONTH,4);
 		 cal.set(Calendar.YEAR,2014);
 
