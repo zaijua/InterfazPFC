@@ -226,7 +226,6 @@ public class SeriesEjercicios extends Activity {
        	 t2.setText(lse.get(i).getNombre());
        	 t2.setPadding(2, 0, 5, 0);
        	 t2.setTextColor(getResources().getColor(R.color.texto_tabla));
-       	
        	 
        	 /*
        	 Calendar c = Calendar.getInstance();
