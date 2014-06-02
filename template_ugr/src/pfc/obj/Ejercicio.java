@@ -20,7 +20,7 @@ public class Ejercicio {
 		this.idEjercicio = idEjercicio;
 		this.nombre = nombre;
 		this.objetos = new ArrayList<Integer>(objetos);
-		this.duracion=0.0;
+		this.duracion=duracion;
 	}
 	
 	public Ejercicio(int idEjercicio, String nombre, String objetos, double duracion) {

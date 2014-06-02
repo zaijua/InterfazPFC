@@ -691,9 +691,9 @@ public class Graficas extends Activity {
 		 int año1=cal1.get(Calendar.YEAR);
 		 
 		 Calendar cal2 = new GregorianCalendar();
-		 cal2.setTime(date1);
-		 int mes2=cal1.get(Calendar.MONTH);
-		 int año2=cal1.get(Calendar.YEAR);
+		 cal2.setTime(date2);
+		 int mes2=cal2.get(Calendar.MONTH);
+		 int año2=cal2.get(Calendar.YEAR);
 		 
 		 mes1=mes1+(año1-año2)*11;
 		 int meses=mes1-mes2;

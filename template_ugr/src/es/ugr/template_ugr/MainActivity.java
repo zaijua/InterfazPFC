@@ -11,6 +11,7 @@ import pfc.bd.ResultadoDataSource;
 import pfc.bd.SerieEjerciciosDataSource;
 import pfc.obj.Alumno;
 import pfc.obj.Ejercicio;
+import pfc.obj.Objeto;
 import pfc.obj.Resultado;
 import pfc.obj.SerieEjercicios;
 import pfc.obj.TiposPropios.Sexo;
@@ -33,7 +34,7 @@ import android.widget.ImageButton;
  */
 
 public class MainActivity extends Activity {
-	ImageButton alumnos,series,resultados;
+	ImageButton alumnos,series,resultados,ejercicios;
 	Button reinicia;
 
 	@Override
@@ -82,6 +83,18 @@ public class MainActivity extends Activity {
 				startActivity(seriesIntent);
 			}
 		});
+		
+		ejercicios=(ImageButton)findViewById(R.id.buttonEj);
+		ejercicios.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent ejerciciosIntent=new Intent(getApplicationContext(), Ejercicios.class);
+				startActivity(ejerciciosIntent);
+			}
+		});
+		
 		
 		reinicia=(Button)findViewById(R.id.Reinicia);
 		reinicia.setOnClickListener(new View.OnClickListener() {
@@ -140,15 +153,15 @@ public class MainActivity extends Activity {
 				//Crear objetos
 				ObjetoDataSource obs=new ObjetoDataSource(v.getContext());
 				obs.open();
-				obs.createObjeto("Pelota tenis", "", "",0,0);
-				obs.createObjeto("Pelota beisbol", "", "",0,0);
-				obs.createObjeto("Teléfono", "", "",0,0);
-				obs.createObjeto("Bolígrafo", "", "",0,0);
-				obs.createObjeto("Rotulador", "", "",0,0);
-				obs.createObjeto("Estuche", "", "",0,0);
-				obs.createObjeto("Lápiz", "", "",0,0);
-				obs.createObjeto("Vaso", "", "",0,0);
-				obs.createObjeto("Plato", "", "",0,0);
+				Objeto objeto1=obs.createObjeto("Pelota tenis", "", "",0,0);
+				Objeto objeto2=obs.createObjeto("Pelota beisbol", "", "",0,0);
+				Objeto objeto3=obs.createObjeto("Teléfono", "", "",0,0);
+				Objeto objeto4=obs.createObjeto("Bolígrafo", "", "",0,0);
+				Objeto objeto5=obs.createObjeto("Rotulador", "", "",0,0);
+				Objeto objeto6=obs.createObjeto("Estuche", "", "",0,0);
+				Objeto objeto7=obs.createObjeto("Lápiz", "", "",0,0);
+				Objeto objeto8=obs.createObjeto("Vaso", "", "",0,0);
+				Objeto objeto9=obs.createObjeto("Plato", "", "",0,0);
 				obs.close();
 				
 				//Crear Ejercicios
@@ -156,24 +169,24 @@ public class MainActivity extends Activity {
 				
 				
 				ArrayList<Integer> lista=new ArrayList<Integer>();
-				lista.add(1);
-				lista.add(2);
+				lista.add((int) objeto1.getId());
+				lista.add((int) objeto2.getId());
 				Ejercicio p1=eds.createEjercicio("Pelota tenis y béisbol", lista,5);
 				lista.clear();
-				lista.add(1);
-				lista.add(3);
+				lista.add((int) objeto1.getId());
+				lista.add((int) objeto3.getId());
 				Ejercicio p2=eds.createEjercicio("Pelota y teléfono", lista,6);
 				lista.clear();
-				lista.add(4);
-				lista.add(5);
+				lista.add((int) objeto4.getId());
+				lista.add((int) objeto5.getId());
 				eds.createEjercicio("Bolígrafo y rotulador", lista,7);
 				lista.clear();
-				lista.add(6);
-				lista.add(7);
+				lista.add((int) objeto6.getId());
+				lista.add((int) objeto7.getId());
 				eds.createEjercicio("Estuche y lápiz", lista,8);
 				lista.clear();
-				lista.add(8);
-				lista.add(9);
+				lista.add((int) objeto8.getId());
+				lista.add((int) objeto9.getId());
 				eds.createEjercicio("Vaso y plato", lista,9);
 				lista.clear();
 				eds.close();
@@ -185,7 +198,7 @@ public class MainActivity extends Activity {
 				miarray.add(p1.getIdEjercicio());
 				miarray.add(p2.getIdEjercicio());
 				SerieEjercicios serie1=seds.createSerieEjercicios("PELOTAS", miarray,0, new Date());
-				//seds.actualizaDuracion(serie1);
+				seds.actualizaDuracion(serie1);
 				seds.close();
 				
 				
@@ -204,17 +217,27 @@ public class MainActivity extends Activity {
 				cal.add(Calendar.DATE, -5);
 				Date fecha3=cal.getTime();
 				
+				cal=Calendar.getInstance();
+				cal.add(Calendar.DATE, -8);
+				Date fecha4=cal.getTime();
+				
 				 
 				
 				Resultado r=new Resultado(1, alumno1.getIdAlumno(), serie1.getIdSerie(), fecha1, 0, 30, 18, 12, 7.2);		
 				Resultado r2=new Resultado(2, alumno1.getIdAlumno(), serie1.getIdSerie(), fecha2, 0, 30, 18, 12, 8.9);
+
 				Resultado r3=new Resultado(3, alumno2.getIdAlumno(), serie1.getIdSerie(), fecha1, 0, 30, 18, 12, 6.1);
 				Resultado r4=new Resultado(4, alumno2.getIdAlumno(), serie1.getIdSerie(), fecha3, 0, 30, 18, 12, 5.4);
+				
+				Resultado r5=new Resultado(5, alumno1.getIdAlumno(), serie1.getIdSerie(), fecha4, 0, 30, 18, 12, 7.8);
+				Resultado r6=new Resultado(6, alumno2.getIdAlumno(), serie1.getIdSerie(), fecha4, 0, 30, 18, 12, 6.2);
 				
 				rds.createResultado(r);
 				rds.createResultado(r2);
 				rds.createResultado(r3);
 				rds.createResultado(r4);
+				rds.createResultado(r5);
+				rds.createResultado(r6);
 				
 				rds.close();
 				

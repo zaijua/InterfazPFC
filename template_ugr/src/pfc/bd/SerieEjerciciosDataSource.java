@@ -126,7 +126,7 @@ public class SerieEjerciciosDataSource {
 		
 		double duracionAnterior = serie.getDuracion();
 		EjercicioDataSource ejercicioDS = new EjercicioDataSource(context);
-
+		ejercicioDS.open();
 		serie.setDuracion(0);
 		
 		for(int i=0;i<serie.getEjercicios().size(); i++)
@@ -134,14 +134,13 @@ public class SerieEjerciciosDataSource {
 		
 		values.put(MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_DURACION, serie.getDuracion());
 		
-		int modificado = database.update(MySQLiteHelper.TABLE_SERIE_EJERCICIOS, values,
-				MySQLiteHelper.COLUMN_SERIE_EJERCICIOS_ID + " = " + serie.getIdSerie(), null);
+		boolean modificado = modificaSerieEjercicios(serie);
 		
 		ejercicioDS.close();
 		
-		if (modificado == 0)
+		if (!modificado)
 			serie.setDuracion(duracionAnterior);
-		return modificado > 0;
+		return modificado;
 	}
 
 	public boolean eliminarSerieEjercicios(int id) {
@@ -197,7 +196,7 @@ public class SerieEjerciciosDataSource {
 				Utils.ArrayListFromJson(cursor.getString(2)),cursor.getDouble(3),new Date());
 		try {
 			serie.setFecha_modificacion(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
-					.getString(3)));
+					.getString(4)));
 		} catch (ParseException e) {
 			Log.e("ERROR_FECHA", "Error al obtener la fecha");
 			e.printStackTrace();

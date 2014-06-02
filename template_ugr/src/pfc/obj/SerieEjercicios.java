@@ -32,7 +32,7 @@ public class SerieEjercicios {
 		this.idSerie = idSerie;
 		this.nombre = nombre;
 		this.ejercicios = new ArrayList<Integer>(ejercicios);
-		this.duracion=0.0;
+		this.duracion=duracion;
 		this.fecha_modificacion= fecha_modificacion; 
 	}
 	

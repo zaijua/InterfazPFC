@@ -143,6 +143,7 @@ public class EjercicioDataSource {
 				new String [] {MySQLiteHelper.COLUMN_EJERCICIO_DURACION}, 
 				MySQLiteHelper.COLUMN_EJERCICIO_ID + " = " + id, null, null, null, null);
 		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
 			return cursor.getDouble(0);
 		}
 		return 0;

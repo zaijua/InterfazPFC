@@ -214,13 +214,16 @@ public class Tablas extends Activity {
 			 switch (fechaTipo) {
 			case 1:
 				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Semana));
+				//listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Semana));
 				break;
 			case 2:
 				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Mes));
+				//listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.Mes));
 				break;
 				
 			case 3:
 				listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.SeisMeses));				
+				//listaFinal.add(rds.getResultadosAlumno(ads.getAlumnos(listaAlumnos.get(i)),se,TiposPropios.Periodo.SeisMeses));
 				break;
 			default:
 				
@@ -268,6 +271,7 @@ public class Tablas extends Activity {
 						
 					case 3:
 						distancia=(ncampos-1)-diferenciaMeses(new Date(), listaFinal.get(i).get(j).getFechaRealizacion());
+						
 						break;
 					default:
 						break;
@@ -291,16 +295,19 @@ public class Tablas extends Activity {
 			        switch (fechaTipo) {
 					case 1:
 						dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
 						break;
 					case 2:
 						dateFormat=new SimpleDateFormat("dd/MM");
+						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
 						break;
 					case 3:
 						dateFormat=new SimpleDateFormat("MM/yyyy");
+						grupo.add(new GrupoDeItems(dateFormat.format(restaFechaMeses(ncampos-1-i)).toString()));
 						break;
 			        }	
 						
-				grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
+				//grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
 				for(int j=0;j<listaValores.get(i).size();j++)
 						grupo.get(pos).children.add(listaValores.get(i).get(j));
 				grupos.append(pos, grupo.get(pos));
@@ -425,16 +432,19 @@ public class Tablas extends Activity {
 				        switch (fechaTipo) {
 						case 1:
 							dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
 							break;
 						case 2:
 							dateFormat=new SimpleDateFormat("dd/MM");
+							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
 							break;
 						case 3:
 							dateFormat=new SimpleDateFormat("MM/yyyy");
+							grupo.add(new GrupoDeItems(dateFormat.format(restaFechaMeses(ncampos-1-i)).toString()));
 							break;
 				        }	
 							
-					grupo.add(new GrupoDeItems(dateFormat.format(restaFechaDias(ncampos-1-i)).toString()));
+
 					for(int j=0;j<listaValores.get(i).size();j++)
 							grupo.get(pos).children.add(listaValores.get(i).get(j));
 					grupos.append(pos, grupo.get(pos));
@@ -460,12 +470,7 @@ public class Tablas extends Activity {
 		 return diffInDays;
 	 }
 	 
-	 private Date restaDias(Date date1,int dias){
-		 final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-		 Date dateBefore = new Date(date1.getTime() - dias*DAY_IN_MILLIS );
-		 return dateBefore;
-	 }
 
 	 
 	 
@@ -476,9 +481,9 @@ public class Tablas extends Activity {
 		 int año1=cal1.get(Calendar.YEAR);
 		 
 		 Calendar cal2 = new GregorianCalendar();
-		 cal2.setTime(date1);
-		 int mes2=cal1.get(Calendar.MONTH);
-		 int año2=cal1.get(Calendar.YEAR);
+		 cal2.setTime(date2);
+		 int mes2=cal2.get(Calendar.MONTH);
+		 int año2=cal2.get(Calendar.YEAR);
 		 
 		 mes1=mes1+(año1-año2)*11;
 		 int meses=mes1-mes2;
@@ -495,5 +500,14 @@ public class Tablas extends Activity {
 		    d.setTime( c.getTime().getTime() );
 		    return d;
 	 }
+	 
+	 private Date restaFechaMeses(int meses){
+		 	Date d=new Date();
+		    Calendar c = Calendar.getInstance();
+		    c.add(Calendar.MONTH, -meses);
+		    d.setTime( c.getTime().getTime() );
+		    return d;
+	 }
+	 
 	
 }

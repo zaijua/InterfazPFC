@@ -171,14 +171,19 @@ public class ResultadoDataSource {
 		
 		List<Resultado> resultados = new ArrayList<Resultado>();
 				
-		String query = crearQueryResultadosAlumno(alumno, serie, dias);
+		String query=new String(); 
+		
+		if(dias==Periodo.SeisMeses)
+			query= crearQueryResultadosAlumnojm(alumno, serie, dias);
+		else
+			query=crearQueryResultadosAlumno(alumno, serie, dias);
 		
 		Cursor cursor = database.rawQuery(query, null);
 		
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
-				Resultado resultado = cursorToResultado(cursor);
+				Resultado resultado = cursorToResultadojm(cursor);
 				resultados.add(resultado);
 				cursor.moveToNext();
 			}
@@ -189,6 +194,32 @@ public class ResultadoDataSource {
 		
 	}
 
+	private String crearQueryResultadosAlumnojm(Alumno alumno,
+			SerieEjercicios serie, int dias) {
+		
+		String query="SELECT R."+MySQLiteHelper.COLUMN_RESULTADO_ID+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+", "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+
+				", sum("+MySQLiteHelper.COLUMN_RESULTADO_ACIERTOS+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_FALLOS+"),"+
+				" strftime('%Y-%m',"+MySQLiteHelper.COLUMN_RESULTADO_FECHA+") as valMes, sum("+MySQLiteHelper.COLUMN_RESULTADO_PUNTUACION+"), sum("+MySQLiteHelper.COLUMN_RESULTADO_DURACION+"),"+
+				" sum("+MySQLiteHelper.COLUMN_RESULTADO_NUM_OBJETOS+")"+
+				
+				" FROM "+MySQLiteHelper.TABLE_RESULTADO+" R, "+MySQLiteHelper.TABLE_ALUMNO+" A"+
+				
+				" WHERE R."+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = A."+MySQLiteHelper.COLUMN_ALUMNO_ID+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_ALUMNO+" = "+alumno.getIdAlumno()+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_ID_EJERCICIO+" = "+serie.getIdSerie()+
+				" AND "+MySQLiteHelper.COLUMN_RESULTADO_FECHA+" > '"+new SimpleDateFormat("yyyy-MM-dd").format(restaDias(new Date(), dias))+"'";
+				
+				if (dias == Periodo.Semana || dias == Periodo.Mes)
+					query = query + " GROUP BY "+MySQLiteHelper.COLUMN_RESULTADO_FECHA;
+				else if (dias == Periodo.SeisMeses)
+					query = query + " GROUP BY valMes";
+				
+				//query = query + ", R."+MySQLiteHelper.COLUMN_ALUMNO_ID;
+				
+		return query;
+	}
+	
+	
 	private String crearQueryResultadosAlumno(Alumno alumno,
 			SerieEjercicios serie, int dias) {
 		
@@ -213,6 +244,38 @@ public class ResultadoDataSource {
 				
 		return query;
 	}
+	
+	
+	
+	private Resultado cursorToResultadojm(Cursor cursor) {
+		Resultado resultado = new Resultado();
+		resultado.setIdResultado(cursor.getInt(0));
+		resultado.setIdAlumno(cursor.getInt(1));
+		resultado.setIdEjercicio(cursor.getInt(2));
+		resultado.setAciertos(cursor.getInt(3));
+		resultado.setFallos(cursor.getInt(4));
+		try {
+			resultado.setFechaRealizacion(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
+					.getString(5)));
+		} catch (ParseException e) {
+			try {
+				resultado.setFechaRealizacion(new SimpleDateFormat("yyyy-MM-dd").parse(cursor
+						.getString(5)+"-01"));
+			} catch (ParseException e1) {
+				Log.e("ERROR_FECHA", "Error al obtener la fecha");
+				e.printStackTrace();
+				e1.printStackTrace();
+			}
+			
+		}
+		resultado.setPuntuacion(cursor.getDouble(6));
+		resultado.setDuracion(cursor.getDouble(7));
+		resultado.setNumeroObjetosReconocer(cursor.getInt(8));
+		return resultado;
+	}
+	
+	
+	
 	
 	private Resultado cursorToResultado(Cursor cursor) {
 		Resultado resultado = new Resultado();

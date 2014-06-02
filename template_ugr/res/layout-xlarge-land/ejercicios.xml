@@ -16,7 +16,7 @@
         <ListView
             android:layout_width="117dp"
             android:layout_height="wrap_content"
-            android:id="@+id/listViewSeries" />
+            android:id="@+id/listViewSer" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -50,7 +50,7 @@
                 android:layout_height="fill_parent" >
 
                 <TableLayout
-                    android:id="@+id/tabla_series"
+                    android:id="@+id/tabla_ejer"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
 

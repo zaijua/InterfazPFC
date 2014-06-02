@@ -14,10 +14,9 @@
         android:layout_height="fill_parent">
 
         <ListView
-            android:id="@+id/listViewEjer"
+            android:id="@+id/listViewSer"
             android:layout_width="117dp"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -31,11 +30,17 @@
                 android:background="@color/app_color1">
 
                 <TextView
-                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ejercicios"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Series de Ejercicios"
+                    android:id="@+id/textView" />
+
+                <ImageButton
+                    android:id="@+id/aniadir_serie"
+                    android:layout_width="40dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/aniadir" />
 
             </LinearLayout>
 

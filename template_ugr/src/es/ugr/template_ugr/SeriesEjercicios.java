@@ -71,14 +71,14 @@ public class SeriesEjercicios extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ejercicios);
+		setContentView(R.layout.seriejercicios);
 
 		//borrar
 	//	insertaDatos();
 		
 		
-		listView=(ListView)findViewById(R.id.listViewSeries);
-        tablaSeries=(TableLayout)findViewById(R.id.tabla_series);
+		listView=(ListView)findViewById(R.id.listViewSer);
+        tablaSeries=(TableLayout)findViewById(R.id.tabla_ejer);
         seds=new SerieEjerciciosDataSource(this);
         añadirSerie=(ImageButton)findViewById(R.id.aniadir_serie);
         seds.open();
